@@ -1,14 +1,6 @@
 # The following types define the data model of the example service
 # based on which the GraphQL API is generated
 
-type Link @model {
-  id: ID! @isUnique     # required system field (read-only)
-  createdAt: DateTime!  # optional system field (read-only)
-  updatedAt: DateTime!  # optional system field (read-only)
-
-  description: String!
-  url: String!
-}
 
 
 # Uncomment the model below as well
@@ -20,3 +12,24 @@ type Link @model {
 #   # Every relation also required a back-relation (to determine 1:1, 1:n or n:m)
 #   author: User! @relation(name: "UserPosts")
 # }
+
+
+ 
+type Link @model {
+  id: ID! @isUnique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  description: String!
+  url: String!
+  postedBy: User @relation(name: "UsersLinks")
+}
+
+type User @model {
+  id: ID! @isUnique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  email: String @isUnique
+  password: String
+  links: [Link!]! @relation(name: "UsersLinks")
+}
